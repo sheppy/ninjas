@@ -1,0 +1,24 @@
+{
+  "main-menu-bg": {
+    "type": "image",
+    "source": "assets/images/main-menu-bg.png"
+  },
+  "collision": {
+    "type": "image",
+    "source": "assets/tiles/collision.png"
+  },
+  "terraintrans": {
+    "type": "image",
+    "source": "assets/tiles/Jungle/terraintrans.png"
+  },
+  "map1": {
+    "type": "tilemap",
+    "source": "assets/maps/map1.json"
+  },
+  "male-sprite": {
+    "type": "spritesheet",
+    "source": "assets/images/male-sprite.png",
+    "frameWidth": 32,
+    "frameHeight": 32
+  }
+}
