@@ -1,4 +1,5 @@
 # Ninjas
+Demo: https://pacific-inlet-28658.herokuapp.com/
 
 # Libraries used
 * phaser
