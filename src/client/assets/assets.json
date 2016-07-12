@@ -20,5 +20,12 @@
     "source": "assets/images/male-sprite.png",
     "frameWidth": 32,
     "frameHeight": 32
+  },
+  "ninja": {
+    "type": "atlas",
+    "image": "assets/images/NinjaAdventure/NinjaAdventure.png",
+    "json": "assets/images/NinjaAdventure/NinjaAdventure.json",
+    "frameWidth": 32,
+    "frameHeight": 32
   }
 }

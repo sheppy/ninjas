@@ -15,6 +15,7 @@ export default class Level1State extends Phaser.State {
         // Render line of sight
         this.lineOfSight = this.game.plugins.add(LineOfSightPlugin, {
             // tileMapLayer: this.layers.collision
+            shadowColor: 'rgb(15, 15, 15)'
         });
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -84,7 +85,10 @@ export default class Level1State extends Phaser.State {
     }
 
     createPlayer() {
-        this.player = new PlayerPrefab(this, "player", { x: 176, y: 144 }, { texture: "male-sprite" });
+        this.player = new PlayerPrefab(this, "player", { x: 176, y: 144 }, {
+            texture: "ninja",
+            frame: "Idle__009.png"
+        });
     }
 
     updatePlayerLineOfSight() {

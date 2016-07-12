@@ -29,6 +29,9 @@ export default class LoadingState extends Phaser.State {
                     case "tilemap":
                         this.load.tilemap(key, asset.source, null, Phaser.Tilemap.TILED_JSON);
                     break;
+                    case "atlas":
+                        this.load.atlasJSONHash(key, asset.image, asset.json);
+                    break;
                 }
             }
         }

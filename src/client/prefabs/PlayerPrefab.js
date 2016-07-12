@@ -8,11 +8,17 @@ export default class PlayerPrefab extends Prefab {
 
         this.anchor.setTo(0.5, 0.5);
         this.state.game.add.existing(this);
+        this.scale.setTo(0.4);
 
-        this.animations.add("walk-down", [1, 2, 1, 0], 10, true);
-        this.animations.add("walk-left", [4, 5, 4, 3], 10, true);
-        this.animations.add("walk-right", [7, 8, 7, 6], 10, true);
-        this.animations.add("walk-up", [10, 11, 10, 9], 10, true);
+        // this.animations.add("walk-down", [1, 2, 1, 0], 10, true);
+        // this.animations.add("walk-left", [4, 5, 4, 3], 10, true);
+        // this.animations.add("walk-right", [7, 8, 7, 6], 10, true);
+        // this.animations.add("walk-up", [10, 11, 10, 9], 10, true);
+
+        this.animations.add("walk", Phaser.Animation.generateFrameNames("Run__", 0, 9, '.png', 3), 10, true, false);
+        this.animations.add("idle", Phaser.Animation.generateFrameNames("Idle__", 0, 9, '.png', 3), 10, true, false);
+        this.animations.add("jump", Phaser.Animation.generateFrameNames("Jump__", 0, 9, '.png', 3), 10, false, false);
+        this.animations.play("idle");
 
         this.state.game.physics.arcade.enable(this);
         // this.body.collideWorldBounds = true;
@@ -24,8 +30,7 @@ export default class PlayerPrefab extends Prefab {
         this.body.maxVelocity.x = 250;
         this.body.maxVelocity.y = 500;
 
-        this.path = [];
-        this.pathStep = -1;
+        this.facing = "right";
 
         this.cursors = this.state.game.input.keyboard.createCursorKeys();
     }
@@ -40,6 +45,12 @@ export default class PlayerPrefab extends Prefab {
                 this.body.velocity.x = 10;
             }
             this.body.acceleration.x -= this.walkingSpeed;
+
+            if (this.facing !== "left") {
+                this.facing = "left";
+                this.scale.x *= -1;
+            }
+
         } else if (this.cursors.left.justUp) {
             this.body.acceleration.x = 0;
         }
@@ -50,22 +61,26 @@ export default class PlayerPrefab extends Prefab {
                 this.body.velocity.x = -10;
             }
             this.body.acceleration.x += this.walkingSpeed;
+
+            if (this.facing !== "right") {
+                this.facing = "right";
+                this.scale.x *= -1;
+            }
         } else if (this.cursors.right.justUp) {
             this.body.acceleration.x = 0;
         }
 
-        if (this.body.velocity.x > 10) {
-            this.animations.play("walk-right");
-        } else if (this.body.velocity.x < -10) {
-            this.animations.play("walk-left");
-        } else {
-            this.animations.stop();
-            // this.animations.play('idle');
+        if (Math.abs(this.body.velocity.x) > 10) {
+            this.animations.play("walk");
+        } else if (Math.abs(this.body.velocity.y) < 10) {
+            // this.animations.stop();
+            this.animations.play("idle");
         }
 
         // Jump only if touching a tile
-        if (this.cursors.up.isDown && (this.body.blocked.down || this.body.touching.down)) {
+        if (this.cursors.up.isDown && !this.cursors.up.repeats && (this.body.blocked.down || this.body.touching.down)) {
             this.body.velocity.y = -this.jumpingSpeed;
+            this.animations.play("jump");
         }
 
         // TODO: Double jump
