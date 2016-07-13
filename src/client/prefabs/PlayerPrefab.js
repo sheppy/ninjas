@@ -113,9 +113,33 @@ export default class PlayerPrefab extends Prefab {
             }
         }
 
+        // Wall jumping
+        if (!this.body.touching.down) {
+            if (this.body.touching.right && this.cursors.up.isDown && !this.cursors.up.repeats) {
+                this.body.velocity.y = -this.jumpingSpeed;
+                this.body.acceleration.x = -1000;
+                this.body.velocity.x = -250;
+                this.animations.play("jump");
+
+                if (this.facing !== "left") {
+                    this.facing = "left";
+                    this.scale.x *= -1;
+                }
+            } else if (this.body.touching.left && this.cursors.up.isDown && !this.cursors.up.repeats) {
+                this.body.velocity.y = -this.jumpingSpeed;
+                this.body.acceleration.x = 1000;
+                this.body.velocity.x = 250;
+                this.animations.play("jump");
+
+                if (this.facing !== "right") {
+                    this.facing = "right";
+                    this.scale.x *= -1;
+                }
+            }
+        }
+
+
         // TODO: Double jump
-        // TODO: Hug jump
-        // TODO: Wall jump
 
         this.game.world.wrap(this, 0, true);
     }
