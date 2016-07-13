@@ -22,6 +22,8 @@ export default class Level1State extends Phaser.State {
         this.game.world.enableBody = true;
         this.game.physics.arcade.gravity.y = 1250;
 
+        this.game.physics.arcade.OVERLAP_BIAS = 20;
+
         this.createPlayer();
     }
 
@@ -75,11 +77,14 @@ export default class Level1State extends Phaser.State {
                 this.game.physics.arcade.enable(collider);
                 collider.body.allowGravity = false;
                 collider.body.immovable = true;
-                collider.body.checkCollision.down = false;
+                // collider.renderable = false;
+                collider.bringToTop();
+
+                if (object.properties.allowUp) {
+                    collider.body.checkCollision.down = false;
+                }
 
                 this.groups["collision"].add(collider);
-
-                this.collider = collider;
             break;
         }
     }
@@ -101,12 +106,7 @@ export default class Level1State extends Phaser.State {
 
     render() {
         // this.game.debug.text(this.game.time.fps, 2, 14, "#6ABD30");
-        // this.game.debug.bodyInfo(this.player, 16, 24, "#6ABD30");
-        // this.game.debug.spriteInfo(this.collider, 10, 10, 'rgba(0,255,0,0.5)');
-        // this.game.debug.spriteBounds(this.collider);
-        // this.game.debug.spriteCoords(this.collider, 10, 10);
-
-        // this.game.debug.bodyInfo(this.player, 32, 32);
+        this.game.debug.bodyInfo(this.player, 16, 24, "#6ABD30");
         // this.game.debug.body(this.player);
     }
 }

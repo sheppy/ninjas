@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="16" tilewidth="32" tileheight="32" nextobjectid="5">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="16" tilewidth="32" tileheight="32" nextobjectid="7">
  <tileset firstgid="1" name="terraintrans" tilewidth="32" tileheight="32" tilecount="90">
   <image source="../tiles/Jungle/terraintrans.png" width="288" height="320"/>
  </tileset>
@@ -1259,6 +1259,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="10"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="18"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1283,6 +1289,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="19"/>
+   <tile gid="23"/>
+   <tile gid="23"/>
+   <tile gid="23"/>
+   <tile gid="23"/>
+   <tile gid="27"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1307,6 +1319,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="28"/>
+   <tile gid="32"/>
+   <tile gid="32"/>
+   <tile gid="32"/>
+   <tile gid="32"/>
+   <tile gid="36"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1331,30 +1349,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="28"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="36"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1379,12 +1379,12 @@
    <tile gid="14"/>
    <tile gid="14"/>
    <tile gid="14"/>
-   <tile gid="14"/>
-   <tile gid="14"/>
-   <tile gid="14"/>
-   <tile gid="14"/>
-   <tile gid="14"/>
-   <tile gid="14"/>
+   <tile gid="28"/>
+   <tile gid="31"/>
+   <tile gid="31"/>
+   <tile gid="31"/>
+   <tile gid="31"/>
+   <tile gid="36"/>
    <tile gid="11"/>
    <tile gid="12"/>
    <tile gid="13"/>
@@ -1409,12 +1409,12 @@
    <tile gid="23"/>
    <tile gid="23"/>
    <tile gid="23"/>
-   <tile gid="23"/>
-   <tile gid="23"/>
-   <tile gid="23"/>
-   <tile gid="23"/>
-   <tile gid="23"/>
-   <tile gid="23"/>
+   <tile gid="28"/>
+   <tile gid="31"/>
+   <tile gid="31"/>
+   <tile gid="31"/>
+   <tile gid="31"/>
+   <tile gid="36"/>
    <tile gid="20"/>
    <tile gid="21"/>
    <tile gid="22"/>
@@ -1439,12 +1439,12 @@
    <tile gid="31"/>
    <tile gid="31"/>
    <tile gid="31"/>
+   <tile gid="28"/>
    <tile gid="31"/>
    <tile gid="31"/>
    <tile gid="31"/>
    <tile gid="31"/>
-   <tile gid="31"/>
-   <tile gid="31"/>
+   <tile gid="36"/>
    <tile gid="31"/>
    <tile gid="31"/>
    <tile gid="31"/>
@@ -1940,7 +1940,16 @@
   </data>
  </layer>
  <objectgroup name="collision">
-  <object id="1" type="collision" x="360" y="384" width="80" height="16"/>
-  <object id="3" type="collision" x="40" y="448" width="880" height="24"/>
+  <object id="1" type="collision" x="360" y="384" width="80" height="16">
+   <properties>
+    <property name="allowUp" value="true"/>
+   </properties>
+  </object>
+  <object id="3" type="collision" x="40" y="448" width="880" height="24">
+   <properties>
+    <property name="allowUp" value="true"/>
+   </properties>
+  </object>
+  <object id="5" type="collision" x="512" y="320" width="192" height="192"/>
  </objectgroup>
 </map>

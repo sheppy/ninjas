@@ -56,7 +56,7 @@ export default class PlayerPrefab extends Prefab {
         }
 
         // Move right
-        if (this.cursors.right.isDown ) {
+        if (this.cursors.right.isDown) {
             if (this.body.velocity.x < -10) {
                 this.body.velocity.x = -10;
             }
@@ -78,9 +78,39 @@ export default class PlayerPrefab extends Prefab {
         }
 
         // Jump only if touching a tile
-        if (this.cursors.up.isDown && !this.cursors.up.repeats && (this.body.blocked.down || this.body.touching.down)) {
+        if (
+            this.cursors.up.isDown && !this.cursors.up.repeats &&
+            (this.body.blocked.down || this.body.touching.down)
+        ) {
             this.body.velocity.y = -this.jumpingSpeed;
             this.animations.play("jump");
+        }
+
+        // Wall sliding
+        if (!this.body.touching.down) {
+            if (this.cursors.right.isDown && this.body.touching.right) {
+                if (this.body.velocity.y > 100) {
+                    this.frameName = "Jump__003.png";
+                    this.body.velocity.y = 100;
+                }
+
+                if (this.facing !== "right") {
+                    this.facing = "right";
+                    this.scale.x *= -1;
+                }
+            }
+
+            if (this.cursors.left.isDown && this.body.touching.left) {
+                if (this.body.velocity.y > 100) {
+                    this.frameName = "Jump__003.png";
+                    this.body.velocity.y = 100;
+                }
+
+                if (this.facing !== "left") {
+                    this.facing = "left";
+                    this.scale.x *= -1;
+                }
+            }
         }
 
         // TODO: Double jump
