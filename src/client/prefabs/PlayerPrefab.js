@@ -1,6 +1,11 @@
 import Phaser from "phaser";
 import Prefab from "./Prefab";
 
+const WALK_SLIDE_BUFFER = 10;
+const WALL_SLIDE_SPEED = 100;
+const WALL_JUMP_SIDE_ACCELERATION = 1000;
+const WALL_JUMP_SIDE_VELOCITY = 250;
+
 
 export default class PlayerPrefab extends Prefab {
     constructor(state, name, position, properties) {
@@ -35,48 +40,61 @@ export default class PlayerPrefab extends Prefab {
         this.cursors = this.state.game.input.keyboard.createCursorKeys();
     }
 
+    faceDirection(direction) {
+        if (this.facing !== direction) {
+            this.facing = direction;
+            this.scale.x *= -1; // Flip the sprite
+        }
+    }
+
     update() {
-        // this.state.game.physics.arcade.collide(this, this.state.layers.collision);
         this.state.game.physics.arcade.collide(this, this.state.groups.collision);
 
+        this.updateWalking();
+        this.updateJumping();
+        this.updateWallSliding();
+        this.updateWallJumping();
+
+        // TODO: Double jump
+
+        this.game.world.wrap(this, 0, true);
+    }
+
+    updateWalking() {
         // Move left
         if (this.cursors.left.isDown) {
-            if (this.body.velocity.x > 10) {
-                this.body.velocity.x = 10;
+            if (this.body.velocity.x > WALK_SLIDE_BUFFER) {
+                this.body.velocity.x = WALK_SLIDE_BUFFER;
             }
+
             this.body.acceleration.x -= this.walkingSpeed;
 
-            if (this.facing !== "left") {
-                this.facing = "left";
-                this.scale.x *= -1;
-            }
-
+            this.faceDirection("left");
         } else if (this.cursors.left.justUp) {
             this.body.acceleration.x = 0;
         }
 
         // Move right
         if (this.cursors.right.isDown) {
-            if (this.body.velocity.x < -10) {
-                this.body.velocity.x = -10;
+            if (this.body.velocity.x < -WALK_SLIDE_BUFFER) {
+                this.body.velocity.x = -WALK_SLIDE_BUFFER;
             }
+
             this.body.acceleration.x += this.walkingSpeed;
 
-            if (this.facing !== "right") {
-                this.facing = "right";
-                this.scale.x *= -1;
-            }
+            this.faceDirection("right");
         } else if (this.cursors.right.justUp) {
             this.body.acceleration.x = 0;
         }
 
-        if (Math.abs(this.body.velocity.x) > 10) {
+        if (Math.abs(this.body.velocity.x) > WALK_SLIDE_BUFFER) {
             this.animations.play("walk");
-        } else if (Math.abs(this.body.velocity.y) < 10) {
-            // this.animations.stop();
+        } else if (Math.abs(this.body.velocity.y) < WALK_SLIDE_BUFFER) {
             this.animations.play("idle");
         }
+    }
 
+    updateJumping() {
         // Jump only if touching a tile
         if (
             this.cursors.up.isDown && !this.cursors.up.repeats &&
@@ -85,75 +103,47 @@ export default class PlayerPrefab extends Prefab {
             this.body.velocity.y = -this.jumpingSpeed;
             this.animations.play("jump");
         }
+    }
 
+    updateWallSliding() {
         // Wall sliding
         if (!this.body.touching.down) {
             if (this.cursors.right.isDown && this.body.touching.right) {
-                if (this.body.velocity.y > 100) {
+                if (this.body.velocity.y > WALL_SLIDE_SPEED) {
                     this.frameName = "Jump__003.png";
-                    this.body.velocity.y = 100;
+                    this.body.velocity.y = WALL_SLIDE_SPEED;
                 }
 
-                if (this.facing !== "right") {
-                    this.facing = "right";
-                    this.scale.x *= -1;
-                }
+                this.faceDirection("right");
             }
 
             if (this.cursors.left.isDown && this.body.touching.left) {
-                if (this.body.velocity.y > 100) {
+                if (this.body.velocity.y > WALL_SLIDE_SPEED) {
                     this.frameName = "Jump__003.png";
-                    this.body.velocity.y = 100;
+                    this.body.velocity.y = WALL_SLIDE_SPEED;
                 }
 
-                if (this.facing !== "left") {
-                    this.facing = "left";
-                    this.scale.x *= -1;
-                }
+                this.faceDirection("left");
             }
         }
+    }
 
+    updateWallJumping() {
         // Wall jumping
         if (!this.body.touching.down) {
             if (this.body.touching.right && this.cursors.up.isDown && !this.cursors.up.repeats) {
                 this.body.velocity.y = -this.jumpingSpeed;
-                this.body.acceleration.x = -1000;
-                this.body.velocity.x = -250;
+                this.body.acceleration.x = -WALL_JUMP_SIDE_ACCELERATION;
+                this.body.velocity.x = -WALL_JUMP_SIDE_VELOCITY;
                 this.animations.play("jump");
-
-                if (this.facing !== "left") {
-                    this.facing = "left";
-                    this.scale.x *= -1;
-                }
+                this.faceDirection("left");
             } else if (this.body.touching.left && this.cursors.up.isDown && !this.cursors.up.repeats) {
                 this.body.velocity.y = -this.jumpingSpeed;
-                this.body.acceleration.x = 1000;
-                this.body.velocity.x = 250;
+                this.body.acceleration.x = WALL_JUMP_SIDE_ACCELERATION;
+                this.body.velocity.x = WALL_JUMP_SIDE_VELOCITY;
                 this.animations.play("jump");
-
-                if (this.facing !== "right") {
-                    this.facing = "right";
-                    this.scale.x *= -1;
-                }
+                this.faceDirection("right");
             }
         }
-
-
-        // TODO: Double jump
-
-        this.game.world.wrap(this, 0, true);
-    }
-
-    hasReachedTargetPosition(targetPosition) {
-        return Phaser.Point.distance(this.position, targetPosition) < 1;
-    }
-
-    moveTo(targetPosition) {
-        this.state.pathfinding.findPath(this.position, targetPosition, this.setPath, this);
-    }
-
-    setPath(path = []) {
-        this.path = path;
-        this.pathStep = 0;
     }
 }
