@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="16" tilewidth="32" tileheight="32" nextobjectid="16">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="16" tilewidth="32" tileheight="32" nextobjectid="21">
  <tileset firstgid="1" name="terraintrans" tilewidth="32" tileheight="32" tilecount="90">
   <image source="../tiles/Jungle/terraintrans.png" width="288" height="320"/>
  </tileset>
@@ -974,7 +974,6 @@
    <tile gid="39"/>
   </data>
  </layer>
- <objectgroup name="collision"/>
  <layer name="collision" width="30" height="16" visible="0">
   <properties>
    <property name="collision" value="true"/>
@@ -1462,4 +1461,30 @@
    <tile gid="92"/>
   </data>
  </layer>
+ <objectgroup name="collision"/>
+ <objectgroup name="spawn">
+  <properties>
+   <property name="facing" value="right"/>
+  </properties>
+  <object id="17" type="player-spawn" x="128" y="416" width="32" height="32">
+   <properties>
+    <property name="facing" value="right"/>
+   </properties>
+  </object>
+  <object id="18" type="player-spawn" x="800" y="416" width="32" height="32">
+   <properties>
+    <property name="facing" value="left"/>
+   </properties>
+  </object>
+  <object id="19" type="player-spawn" x="864" y="96" width="32" height="32">
+   <properties>
+    <property name="facing" value="left"/>
+   </properties>
+  </object>
+  <object id="20" type="player-spawn" x="64" y="96" width="32" height="32">
+   <properties>
+    <property name="facing" value="right"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

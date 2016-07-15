@@ -36,6 +36,7 @@ export default class PlayerPrefab extends Prefab {
         this.body.maxVelocity.y = 500;
 
         this.facing = "right";
+        this.faceDirection(properties.facing);
 
         this.cursors = this.state.game.input.keyboard.createCursorKeys();
     }

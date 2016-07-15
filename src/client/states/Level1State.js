@@ -75,6 +75,7 @@ export default class Level1State extends Phaser.State {
         // TODO: Create groups?
         this.groups = {};
         this.groups["collision"] = this.game.add.group();
+        this.groups["player-spawn"] = [];
 
         // Create objects
         this.prefabs = {};
@@ -89,7 +90,6 @@ export default class Level1State extends Phaser.State {
     }
 
     createObject(object) {
-
         switch (object.type) {
             case "collision":
                 let collider = this.game.add.sprite(object.x, object.y);
@@ -104,16 +104,34 @@ export default class Level1State extends Phaser.State {
                 if (object.properties.allowUp) {
                     collider.body.checkCollision.down = false;
                 }
-
-                this.groups["collision"].add(collider);
             break;
+
+            case "player-spawn":
+                console.log(object);
+                this.groups["player-spawn"].push({
+                    x: object.x,
+                    y: object.y,
+                    facing: object.properties.facing
+                });
+            break;
+
+            default:
+                console.warn(`Unknown object type "${object.type}"`);
         }
     }
 
     createPlayer() {
-        this.player = new PlayerPrefab(this, "player", { x: 176, y: 144 }, {
+        // TODO: Get random spawn
+        let numSpawns = this.groups["player-spawn"].length;
+        let spawnIndex = Math.floor(Math.random() * numSpawns);
+        let spawn = this.groups["player-spawn"][spawnIndex];
+
+        console.log(spawn);
+
+        this.player = new PlayerPrefab(this, "player", { x: spawn.x, y: spawn.y }, {
             texture: "ninja",
-            frame: "Idle__009.png"
+            frame: "Idle__009.png",
+            facing: spawn.facing
         });
     }
 
