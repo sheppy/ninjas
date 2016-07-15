@@ -15,6 +15,10 @@
     "type": "tilemap",
     "source": "assets/maps/map1.json"
   },
+  "map2": {
+    "type": "tilemap",
+    "source": "assets/maps/map2.json"
+  },
   "male-sprite": {
     "type": "spritesheet",
     "source": "assets/images/male-sprite.png",

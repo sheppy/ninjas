@@ -40,15 +40,36 @@ export default class Level1State extends Phaser.State {
 
     createMap() {
         // Create map and set tileset
-        this.map = this.add.tilemap("map1");
+        this.map = this.add.tilemap("map2");
 
         // TODO: Loop thru all tilesets
+        this.map.tilesets.forEach(tileset => {
+            this.map.addTilesetImage(tileset.name);
+        });
+
         this.map.addTilesetImage(this.map.tilesets[0].name);
 
         // Create map layers
         this.layers = {};
         this.map.layers.forEach(layer => {
             this.layers[layer.name] = this.map.createLayer(layer.name);
+
+            // Collision layer
+            if (layer.properties.collision) {
+                let collisionTiles = [];
+                this.layers[layer.name].alpha = 0;  // Hide this layer
+                layer.data.forEach(dataRow => {
+                    // Find tiles used in the layer
+                    dataRow.forEach(tile => {
+                        // Check if it's a valid tile index and isn't already in the list
+                        if (tile.index > 0 && collisionTiles.indexOf(tile.index) === -1) {
+                            collisionTiles.push(tile.index);
+                        }
+                    });
+                });
+
+                this.map.setCollision(collisionTiles, true, layer.name);
+            }
         });
 
         // TODO: Create groups?

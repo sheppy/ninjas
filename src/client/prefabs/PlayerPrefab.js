@@ -48,6 +48,7 @@ export default class PlayerPrefab extends Prefab {
     }
 
     update() {
+        this.state.game.physics.arcade.collide(this, this.state.layers.collision);
         this.state.game.physics.arcade.collide(this, this.state.groups.collision);
 
         this.updateWalking();
@@ -107,8 +108,8 @@ export default class PlayerPrefab extends Prefab {
 
     updateWallSliding() {
         // Wall sliding
-        if (!this.body.touching.down) {
-            if (this.cursors.right.isDown && this.body.touching.right) {
+        if (!this.body.blocked.down && !this.body.touching.down) {
+            if (this.cursors.right.isDown && (this.body.blocked.right || this.body.touching.right)) {
                 if (this.body.velocity.y > WALL_SLIDE_SPEED) {
                     this.frameName = "Jump__003.png";
                     this.body.velocity.y = WALL_SLIDE_SPEED;
@@ -117,7 +118,7 @@ export default class PlayerPrefab extends Prefab {
                 this.faceDirection("right");
             }
 
-            if (this.cursors.left.isDown && this.body.touching.left) {
+            if (this.cursors.left.isDown && (this.body.blocked.left || this.body.touching.left)) {
                 if (this.body.velocity.y > WALL_SLIDE_SPEED) {
                     this.frameName = "Jump__003.png";
                     this.body.velocity.y = WALL_SLIDE_SPEED;
@@ -130,14 +131,14 @@ export default class PlayerPrefab extends Prefab {
 
     updateWallJumping() {
         // Wall jumping
-        if (!this.body.touching.down) {
-            if (this.body.touching.right && this.cursors.up.isDown && !this.cursors.up.repeats) {
+        if (!this.body.blocked.down && !this.body.touching.down) {
+            if ((this.body.blocked.right || this.body.touching.right) && this.cursors.up.isDown && !this.cursors.up.repeats) {
                 this.body.velocity.y = -this.jumpingSpeed;
                 this.body.acceleration.x = -WALL_JUMP_SIDE_ACCELERATION;
                 this.body.velocity.x = -WALL_JUMP_SIDE_VELOCITY;
                 this.animations.play("jump");
                 this.faceDirection("left");
-            } else if (this.body.touching.left && this.cursors.up.isDown && !this.cursors.up.repeats) {
+            } else if ((this.body.blocked.left || this.body.touching.left) && this.cursors.up.isDown && !this.cursors.up.repeats) {
                 this.body.velocity.y = -this.jumpingSpeed;
                 this.body.acceleration.x = WALL_JUMP_SIDE_ACCELERATION;
                 this.body.velocity.x = WALL_JUMP_SIDE_VELOCITY;
