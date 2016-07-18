@@ -33,7 +33,7 @@ export default class PlayerPrefab extends Prefab {
 
         this.body.drag.x = 900;
         this.body.maxVelocity.x = 250;
-        this.body.maxVelocity.y = 500;
+        this.body.maxVelocity.y = 1000;
 
         this.facing = "right";
         this.faceDirection(properties.facing);

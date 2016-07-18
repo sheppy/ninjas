@@ -20,9 +20,9 @@ export default class Level1State extends Phaser.State {
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.world.enableBody = true;
-        this.game.physics.arcade.gravity.y = 1250;
+        this.game.physics.arcade.gravity.y = 1600;
 
-        this.game.physics.arcade.OVERLAP_BIAS = 20;
+        this.game.physics.arcade.OVERLAP_BIAS = 6;
 
         this.createPlayer();
     }
