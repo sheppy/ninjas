@@ -11,6 +11,10 @@
     "type": "image",
     "source": "assets/tiles/Jungle/terraintrans.png"
   },
+  "Db32palette": {
+    "type": "image",
+    "source": "assets/Db32palette.png"
+  },
   "map1": {
     "type": "tilemap",
     "source": "assets/maps/map1.json"

@@ -6,7 +6,7 @@ import LineOfSightPlugin from "../plugins/LineOfSightPlugin";
 
 export default class Level1State extends Phaser.State {
     create() {
-        this.stage.backgroundColor = "#696A6A";
+        this.stage.backgroundColor = "#222034";
 
         this.createMap();
 
@@ -42,7 +42,7 @@ export default class Level1State extends Phaser.State {
         // Create map and set tileset
         this.map = this.add.tilemap("map2");
 
-        // TODO: Loop thru all tilesets
+        // Loop thru all tilesets
         this.map.tilesets.forEach(tileset => {
             this.map.addTilesetImage(tileset.name);
         });
@@ -107,7 +107,6 @@ export default class Level1State extends Phaser.State {
             break;
 
             case "player-spawn":
-                console.log(object);
                 this.groups["player-spawn"].push({
                     x: object.x,
                     y: object.y,
