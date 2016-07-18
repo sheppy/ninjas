@@ -39,6 +39,14 @@ export default class PlayerPrefab extends Prefab {
         this.faceDirection(properties.facing);
 
         this.cursors = this.state.game.input.keyboard.createCursorKeys();
+
+        this.puffs = this.state.game.add.group();
+        this.puffs.createMultiple(5, "puff", 0, false);
+        this.puffs.alpha = 0.5;
+        this.puffs.callAll("animations.add", "animations", "puff", [0, 1, 2, 3, 4], 20, true);
+        this.puffs.setAll('anchor.x', 0.5);
+        this.puffs.setAll('scale.x', 0.5);
+        this.puffs.setAll('scale.y', 0.5);
     }
 
     faceDirection(direction) {
@@ -104,6 +112,8 @@ export default class PlayerPrefab extends Prefab {
         ) {
             this.body.velocity.y = -this.jumpingSpeed;
             this.animations.play("jump");
+
+            this.showPuff();
         }
     }
 
@@ -115,8 +125,6 @@ export default class PlayerPrefab extends Prefab {
                     this.frameName = "Jump__003.png";
                     this.body.velocity.y = WALL_SLIDE_SPEED;
                 }
-
-                this.faceDirection("right");
             }
 
             if (this.cursors.left.isDown && (this.body.blocked.left || this.body.touching.left)) {
@@ -139,13 +147,25 @@ export default class PlayerPrefab extends Prefab {
                 this.body.velocity.x = -WALL_JUMP_SIDE_VELOCITY;
                 this.animations.play("jump");
                 this.faceDirection("left");
+                this.showPuff();
             } else if ((this.body.blocked.left || this.body.touching.left) && this.cursors.up.isDown && !this.cursors.up.repeats) {
                 this.body.velocity.y = -this.jumpingSpeed;
                 this.body.acceleration.x = WALL_JUMP_SIDE_ACCELERATION;
                 this.body.velocity.x = WALL_JUMP_SIDE_VELOCITY;
                 this.animations.play("jump");
                 this.faceDirection("right");
+                this.showPuff();
             }
+        }
+    }
+
+    showPuff() {
+        let puff = this.puffs.getFirstExists(false);
+
+        if (puff) {
+            puff.reset(this.x, this.y);
+            puff.frame = 0;
+            puff.animations.play("puff", 25, false, true);
         }
     }
 }
