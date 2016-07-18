@@ -5,6 +5,8 @@ const WALK_SLIDE_BUFFER = 10;
 const WALL_SLIDE_SPEED = 100;
 const WALL_JUMP_SIDE_ACCELERATION = 1000;
 const WALL_JUMP_SIDE_VELOCITY = 250;
+const JUMP_VARIABLE_HEIGHT = -120;
+const JUMP_ACCELERATION = -35000;
 
 
 export default class PlayerPrefab extends Prefab {
@@ -98,6 +100,8 @@ export default class PlayerPrefab extends Prefab {
         }
 
         if (Math.abs(this.body.velocity.x) > WALK_SLIDE_BUFFER) {
+            // Change walking animation speed?
+            //this.animations.currentAnim.speed = 20
             this.animations.play("walk");
         } else if (Math.abs(this.body.velocity.y) < WALK_SLIDE_BUFFER) {
             this.animations.play("idle");
@@ -105,15 +109,22 @@ export default class PlayerPrefab extends Prefab {
     }
 
     updateJumping() {
+        this.body.acceleration.y = 0;
+
         // Jump only if touching a tile
         if (
             this.cursors.up.isDown && !this.cursors.up.repeats &&
             (this.body.blocked.down || this.body.touching.down)
         ) {
-            this.body.velocity.y = -this.jumpingSpeed;
+            this.body.acceleration.y = JUMP_ACCELERATION;
             this.animations.play("jump");
 
             this.showPuff();
+        }
+
+        // Variable height jump
+        if (this.cursors.up.isUp && this.cursors.up.justDown && this.body.velocity.y < JUMP_VARIABLE_HEIGHT) {
+            this.body.velocity.y = JUMP_VARIABLE_HEIGHT;
         }
     }
 
@@ -139,6 +150,7 @@ export default class PlayerPrefab extends Prefab {
     }
 
     updateWallJumping() {
+        // TODO: Possibly refactor to use the same jumping calculation as static jumps
         // Wall jumping
         if (!this.body.blocked.down && !this.body.touching.down) {
             if ((this.body.blocked.right || this.body.touching.right) && this.cursors.up.isDown && !this.cursors.up.repeats) {
