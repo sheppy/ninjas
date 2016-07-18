@@ -13,7 +13,7 @@ export default class PlayerPrefab extends Prefab {
 
         this.anchor.setTo(0.5, 0.5);
         this.state.game.add.existing(this);
-        this.scale.setTo(0.4);
+        this.scale.setTo(0.36);
 
         // this.animations.add("walk-down", [1, 2, 1, 0], 10, true);
         // this.animations.add("walk-left", [4, 5, 4, 3], 10, true);
