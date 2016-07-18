@@ -35,5 +35,11 @@
     "json": "assets/images/NinjaAdventure/NinjaAdventure.json",
     "frameWidth": 32,
     "frameHeight": 32
-  }
+  },
+  "puff": {
+    "type": "spritesheet",
+    "source": "assets/images/puff.png",
+    "frameWidth": 31,
+    "frameHeight": 28
+  },
 }
